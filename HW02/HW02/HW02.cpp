@@ -1,55 +1,50 @@
 ﻿#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <random>
+
+#include "animal.h"
+#include "zoo.h"
 
 using namespace std;
 
-class Animal{
-public:
-    Animal() {
+//동물 객체를 반환하는 함수
+Animal* createRandomAnimal() {
+    
+    int randInt = rand() % 3; //모든 수를 3으로 나누면 0, 1, 2 중에서 나온다.
 
-    };
-    virtual void makeSound() {
-
+    if (randInt == 0) {
+        return new Dog;
     }
-
-    virtual ~Animal() {
-
-    };
-};
-
-class Dog: public Animal {
-    void makeSound() {
-        cout << "강아지가 내는 소리: " << "월월" << endl;
+    else if (randInt == 1) {
+        return new Cat;
     }
-};
-
-class Cat: public Animal {
-    void makeSound() {
-        cout << "고양이가 내는 소리: " << "미야옹" << endl;
+    else if (randInt == 2) {
+        return new Cow;
     }
-};
-
-class Cow: public Animal {
-    void makeSound() {
-        cout << "소가 내는 소리: " << "음머어" << endl;
-    }
-};
-
-void print(Animal* animal) {
-    animal->makeSound();
 }
 
 int main()
 {
-    Animal* animals = new Animal[3];
+    srand(time(0)); //초기화 한번 해줘야함
+
+    ////////필수기능////////
+    const int SIZE = 3;
+
+    Animal* animals[SIZE] = {};
+
     Dog dog;
     Cat cat;
     Cow cow;
 
-    print(&dog);
-    print(&cat);
-    print(&cow);
+    //동물원 만들기
+    Zoo zoo;
 
-    delete[] animals;
+    zoo.addAnimal(createRandomAnimal());
+    zoo.addAnimal(createRandomAnimal());
+    zoo.addAnimal(createRandomAnimal());
+
+    zoo.performActions();
 
     return 0;
 }
